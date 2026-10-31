@@ -13,7 +13,7 @@ request it once, and the code runs as the Tomcat user.
 Since Tomcat 7 the upload form is guarded by a CSRF nonce tied to the session
 cookie. The nonce on its own is useless; you need the nonce and the matching
 `JSESSIONID` together. The script pulls both from `/manager/html` in one request
-and reuses them for the upload, which is the step people get wrong by hand.
+and reuses them for the upload.
 
 The WAR is built in memory from a single JSP, so there is no msfvenom dependency.
 The shell checks `os.name` and spawns `cmd.exe` on Windows or `/bin/sh` elsewhere,
