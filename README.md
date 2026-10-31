@@ -82,9 +82,32 @@ Python 3 and `requests`.
 - No nonce in the page: very old Tomcat without CSRF protection. The script
   detects this and uploads without one.
 
+## Origin
+
+The driver is mine. There is no vulnerability to credit anyone with, because
+deploying a WAR with valid manager credentials is intended Tomcat functionality
+rather than a flaw, so there is no discoverer and no CVE. The nonce handling,
+the in-memory WAR build, the random context naming and the cleanup are written
+for this script.
+
+The JSP is a different matter. Its `StreamConnector` skeleton is modified from
+the JSP reverse shell published at
+http://www.security.org.sg/code/jspreverse.html, carried into FuzzDB and from
+there into most webshell collections. Metasploit's `lib/msf/core/payload/jsp.rb`
+names the same page as what it was modified from, so this is the usual lineage
+for that snippet rather than an unusual one.
+
+What changed here: the stream pump copies raw bytes instead of decoding
+characters through a reader and writer, which stops binary data being mangled
+in transit; the shell is chosen from `os.name` at runtime instead of being
+fixed to `cmd.exe`; and the host and port are templated in when the WAR is
+built rather than typed into a form on the deployed page.
+
 ## Licence
 
-MIT, see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE). The grant covers this script. It does not cover
+the JSP skeleton described above, which carries no stated licence upstream and
+is therefore not relicensed here.
 
 ## Legal
 

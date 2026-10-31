@@ -19,3 +19,23 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+Note on prior work
+
+The technique this script automates is intended Tomcat functionality used with
+valid credentials, so there is no vulnerability and no discoverer to credit.
+
+The JSP reverse shell is a derivative. Its StreamConnector skeleton is modified
+from the code published at:
+
+  http://www.security.org.sg/code/jspreverse.html
+
+The same page is cited as the origin in Metasploit's JSP payload generator,
+lib/msf/core/payload/jsp.rb.
+
+That page states no licence. The MIT grant above is offered for the changes
+made in this version, which are the Python driver and the modifications to the
+JSP listed in the README. It is not a relicensing of the original author's
+work, and the citation is kept in the header of exploit.py.
