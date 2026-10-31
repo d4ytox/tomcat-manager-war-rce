@@ -3,29 +3,6 @@
 Authenticated WAR upload to remote code execution on Apache Tomcat, through the
 Manager application's HTML upload form.
 
-## About the CVE number
-
-This is usually filed under CVE-2009-3843, but that number does not really fit
-what it does. CVE-2009-3843 is the HP Operations Manager 8.10 backdoor account:
-HP shipped a hidden `ovwebusr` / `OvW*busr1` entry in the bundled Tomcat's
-`tomcat-users.xml`, so anyone could reach the manager without knowing a password.
-The flaw was the shipped credential, not Tomcat.
-
-This script needs valid manager credentials and uses them the way Tomcat intends.
-Deploying a WAR when you are allowed to deploy WARs is a feature. There is no CVE
-for that. The technique is MITRE ATT&CK T1021, Remote Services.
-
-Metasploit's `exploit/multi/http/tomcat_mgr_upload` carries the 2009-3843 tag for
-the HP lineage, which is how the number ends up attached to the generic technique.
-If you need a citation that matches how you actually got in:
-
-- Weak, guessed, or brute-forced password: CVE-1999-0502.
-- Blank `admin` password from the Windows installer default: CVE-2009-3548.
-- The target really is HP Operations Manager 8.10: then CVE-2009-3843 is right.
-
-For a standard Tomcat box where you found or cracked the manager password, the
-honest label is "authenticated WAR deploy, no CVE."
-
 ## How it works
 
 The Manager app lets a `manager-gui` account upload a WAR through
